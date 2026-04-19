@@ -1,6 +1,18 @@
 import './App.css';
 import { AuthProvider, useAuth } from './AuthContext';
 import LoginScreen from './LoginScreen';
+import DocsPage from './DocsPage';
+
+function isDocsMode() {
+  if (typeof window === 'undefined') return false;
+
+  const path = window.location.pathname.toLowerCase();
+  const hash = window.location.hash.toLowerCase();
+  const search = window.location.search.toLowerCase();
+
+  return path.endsWith('/docs') || hash === '#/docs' || search.includes('docs=1');
+}
+
 function AuthenticatedApp() {
   const { user, logout } = useAuth();
 
@@ -22,6 +34,10 @@ function AuthenticatedApp() {
 
 // ─── Root App ─────────────────────────────────────────────────────────────────
 function AppContent() {
+  if (isDocsMode()) {
+    return <DocsPage />;
+  }
+
   const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {

@@ -15,7 +15,9 @@ interface AuthState {
   logout: () => Promise<void>;
 }
 
-const AUTH_API = 'http://localhost:3002';
+const AUTH_API =
+  (import.meta.env.VITE_AUTH_API as string | undefined) ||
+  `${window.location.protocol}//${window.location.hostname}:3002`;
 const STORAGE_KEY_TOKEN = 'kalp_auth_token';
 const STORAGE_KEY_USER = 'kalp_auth_user';
 

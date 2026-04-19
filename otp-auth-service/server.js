@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -171,6 +172,8 @@ app.post('/auth/send-otp', async (req, res) => {
 
     await OtpRequest.updateMany({ phoneNumber, verifiedAt: null }, { $set: { expiresAt: now } });
 
+    await sendSmsViaLocalGateway(phoneNumber, formatSmsMessage(otp));
+
     await OtpRequest.create({
       phoneNumber,
       otpHash,
@@ -178,8 +181,6 @@ app.post('/auth/send-otp', async (req, res) => {
       expiresAt,
       verifiedAt: null
     });
-
-    await sendSmsViaLocalGateway(phoneNumber, formatSmsMessage(otp));
 
     return res.json({
       success: true,
@@ -287,10 +288,31 @@ app.post('/auth/logout', authMiddleware, async (req, res) => {
 });
 
 async function start() {
-  await mongoose.connect(MONGODB_URI);
+  let connected = false;
+
+  // Try configured MongoDB first; if it fails, fall back to an in-memory DB for local development.
+  try {
+    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
+    connected = true;
+    console.log('Connected to configured MongoDB');
+  } catch (error) {
+    console.warn(`Configured MongoDB unavailable: ${error.message}`);
+    console.warn('Falling back to in-memory MongoDB for local development');
+
+    const mem = await MongoMemoryServer.create();
+    const memUri = mem.getUri('otp_auth');
+    await mongoose.connect(memUri);
+    connected = true;
+    console.log('Connected to in-memory MongoDB');
+  }
+
+  if (!connected) {
+    throw new Error('Unable to connect to MongoDB');
+  }
+
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`OTP Auth Service running on port ${PORT}`);
-    console.log(`Connected to MongoDB`);
+    console.log('Auth API bound to 0.0.0.0 for LAN access');
   });
 }
 

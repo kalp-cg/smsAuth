@@ -292,6 +292,97 @@
   text-align: center;
 }
 
+.docs-page {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 36px 20px 80px;
+}
+
+.docs-hero {
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.docs-hero h1 {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.docs-hero p {
+  color: var(--text-secondary);
+}
+
+.docs-section {
+  margin-bottom: 16px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.docs-section h2 {
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.docs-section p,
+.docs-section li {
+  color: var(--text-secondary);
+}
+
+.docs-section ol,
+.docs-section ul {
+  margin-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.docs-code {
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #f7f7f7;
+  overflow-x: auto;
+}
+
+.docs-code code {
+  font-family: 'IBM Plex Mono', monospace;
+  color: #1f1f1f;
+  font-size: 13px;
+}
+
+.docs-table-wrap {
+  overflow-x: auto;
+}
+
+.docs-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 680px;
+}
+
+.docs-table th,
+.docs-table td {
+  border: 1px solid var(--border);
+  padding: 10px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.docs-table th {
+  background: var(--surface-strong);
+  color: var(--text-primary);
+}
+
+.docs-warning {
+  border-color: #e1c38e;
+  background: #fff7e9;
+}
+
 @media (max-width: 480px) {
   .login-phone-group {
     flex-direction: column;
@@ -304,5 +395,13 @@
   .login-card-inner,
   .welcome-card {
     padding: 20px;
+  }
+
+  .docs-page {
+    padding: 16px 12px 40px;
+  }
+
+  .docs-hero h1 {
+    font-size: 24px;
   }
 }
