@@ -14,6 +14,14 @@ This project is a 3-part microservice architecture:
 
 ---
 
+## 🎬 Demo and Docs Links
+
+1. YouTube Demo: https://youtu.be/fwpzjvzSN14?si=tVJXcWxhqVgpWyJ7
+2. Local Frontend Docs: http://localhost:5173/docs
+3. Deployment: Frontend is deployed on Vercel.
+
+---
+
 ## 📲 1. Setting up the Android Gateway (Release App)
 
 To make things easy, we have bundled the entire Android system into a ready-to-use APK.
